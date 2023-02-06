@@ -1,4 +1,10 @@
 class GLCommander {
+  upLoadvec3f(lightPosition: WebGLUniformLocation | null, arg1: any) {
+    throw new Error("Method not implemented.");
+  }
+  uploadFloat(lightAmbient: WebGLUniformLocation | null, arg1: any) {
+    throw new Error("Method not implemented.");
+  }
   gl!: WebGLRenderingContext;
   init(gl: WebGLRenderingContext) {
     this.gl = gl;
@@ -20,8 +26,9 @@ class GLCommander {
   createBuffer = () => this.gl.createBuffer();
   // float buffers
 
-  bindArrayBuffer = (vertexBuffer: Iterable<number>) =>
+  bindArrayBuffer = (vertexBuffer: WebGLBuffer | null) =>
     this.gl.bindBuffer(this.gl.ARRAY_BUFFER, vertexBuffer);
+
   addArrayBufferData = (vertices: Iterable<number>) =>
     this.gl.bufferData(
       this.gl.ARRAY_BUFFER,
@@ -32,8 +39,9 @@ class GLCommander {
   unbindArrayBuffer = () => this.gl.bindBuffer(this.gl.ARRAY_BUFFER, null);
   // int buffers
 
-  bindElementArrayBuffer = (indexBuffer: Iterable<number>) =>
+  bindElementArrayBuffer = (indexBuffer: WebGLBuffer | null) =>
     this.gl.bindBuffer(this.gl.ELEMENT_ARRAY_BUFFER, indexBuffer);
+
   addElementArrayBufferData = (indices: Iterable<number>) =>
     this.gl.bufferData(
       this.gl.ELEMENT_ARRAY_BUFFER,

@@ -4,9 +4,13 @@ import FragmentSource from "webgl/Shaders/ModelShader/fragment";
 import Locations from "webgl/Shaders/ModelShader/locations";
 
 export default class ModelShader {
-  positionAttribute: any;
+  positionAttribute: number | undefined;
+  normalAttribute: number | undefined;
   program: any;
   transformationMatrix: any;
+  lightPosition!: WebGLUniformLocation | null;
+  lightColor!: WebGLUniformLocation | null;
+  lightAmbient!: WebGLUniformLocation | null;
   constructor() {
     const vertexShader = GLC.createVertexShader();
     if (!vertexShader) return;
@@ -25,10 +29,14 @@ export default class ModelShader {
     GLC.linkProgram(program);
 
     this.positionAttribute = GLC.getAttribLocation(program, Locations.POSITION);
+    this.normalAttribute = GLC.getAttribLocation(program, Locations.NORMAL);
     this.transformationMatrix = GLC.getUniformLocation(
       program,
       "transformationMatrix"
     );
+    this.lightPosition = GLC.getUniformLocation(program, "lightPosition");
+    this.lightColor = GLC.getUniformLocation(program, "lightColor");
+    this.lightAmbient = GLC.getUniformLocation(program, "lightAmbient");
 
     this.program = program;
   }
@@ -38,11 +46,26 @@ export default class ModelShader {
   };
 
   enablePosition = () => {
-    GLC.enableVertexAttribArray(this.positionAttribute);
-    GLC.pointToAttribute(this.positionAttribute, 3);
+    GLC.enableVertexAttribArray(this.positionAttribute as number);
+    GLC.pointToAttribute(this.positionAttribute as number, 3);
+  };
+
+  enableNormals = () => {
+    GLC.enableVertexAttribArray(this.normalAttribute as number);
+    GLC.pointToAttribute(this.normalAttribute as number, 3);
   };
 
   enableTransformationMatrix = (matrix: Iterable<number>) => {
     GLC.upLoadMatrix4fv(this.transformationMatrix, matrix);
+  };
+
+  enableLight = (light: {
+    getPosition: () => any;
+    getColor: () => any;
+    getAmbient: () => any;
+  }) => {
+    GLC.upLoadvec3f(this.lightPosition, light.getPosition());
+    GLC.upLoadvec3f(this.lightColor, light.getColor());
+    GLC.uploadFloat(this.lightAmbient, light.getAmbient());
   };
 }
