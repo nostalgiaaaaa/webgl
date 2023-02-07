@@ -1,25 +1,24 @@
 import GLC from "webgl/GLCommander";
+import ModelShader from "webgl/Shaders/ModelShader";
 
 export default class ModelType {
   vertices: Iterable<number>;
   indices: Iterable<number>;
-  normals: Iterable<number>;
+  normals!: Iterable<number>;
   vertexBuffer!: WebGLBuffer | null;
   indexBuffer!: WebGLBuffer | null;
   normalBuffer!: WebGLBuffer | null;
-  constructor(
-    vertices: Iterable<number>,
-    indices: Iterable<number>,
-    normals: Iterable<number>
-  ) {
+
+  constructor(vertices: any, indices: any, normals: any) {
     this.vertices = vertices;
     this.indices = indices;
     this.normals = normals;
     this._genVertexBuffer();
     this._genIndexBuffer();
+    this._genNormalBuffer();
   }
 
-  _getNormalBuffer() {
+  _genNormalBuffer() {
     this.normalBuffer = GLC.createBuffer();
     GLC.bindArrayBuffer(this.normalBuffer);
     GLC.addArrayBufferData(this.normals);
@@ -39,7 +38,7 @@ export default class ModelType {
     GLC.unbindElementArrayBuffer();
   }
 
-  use = (shader: any) => {
+  use = (shader: ModelShader) => {
     GLC.bindArrayBuffer(this.vertexBuffer);
     shader.enablePosition();
     GLC.bindArrayBuffer(this.normalBuffer);

@@ -9,7 +9,7 @@ export default `
     void main(void) {
    
         vec3 unitNormal = normalize(surfaceNormal);
-        vec3 uniLightVector = normalize(lightVector);
+        vec3 unitLightVector = normalize(lightVector);
 
         float nDot = dot(unitNormal, unitLightVector);
         float brightness = max(nDot, pass_lightAmbient);

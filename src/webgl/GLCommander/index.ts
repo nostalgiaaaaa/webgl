@@ -1,10 +1,4 @@
 class GLCommander {
-  upLoadvec3f(lightPosition: WebGLUniformLocation | null, arg1: any) {
-    throw new Error("Method not implemented.");
-  }
-  uploadFloat(lightAmbient: WebGLUniformLocation | null, arg1: any) {
-    throw new Error("Method not implemented.");
-  }
   gl!: WebGLRenderingContext;
   init(gl: WebGLRenderingContext) {
     this.gl = gl;
@@ -93,6 +87,12 @@ class GLCommander {
 
   getUniformLocation = (program: WebGLProgram, uniform: string) =>
     this.gl.getUniformLocation(program, uniform);
+
+  uploadVec3f = (location: WebGLUniformLocation | null, vec3: any) =>
+    this.gl.uniform3fv(location, vec3);
+
+  uploadFloat = (location: WebGLUniformLocation | null, value: any) =>
+    this.gl.uniform1f(location, value);
 }
 
 const GLC = new GLCommander();

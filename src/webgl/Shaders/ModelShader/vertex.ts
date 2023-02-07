@@ -11,14 +11,14 @@ export default `
     varying float pass_lightAmbient;
 
     uniform mat4 transformationMatrix;
-    uniform mat3 lightPosition;
-    uniform mat3 lightColor;
-    uniform mat3 lightAmbient;
+    uniform vec3 lightPosition;
+    uniform vec3 lightColor;
+    uniform float lightAmbient;
 
     void main(void) {
-        vec4 worldPos = gl_Position = transformationMatrix * vec4(${Locatoins.POSITION}, 1.0);
+        vec4 worldPos = transformationMatrix * vec4(${Locatoins.POSITION}, 1.0);
         surfaceNormal = (transformationMatrix * vec4(${Locatoins.NORMAL}, 0.0)).xyz;
-        lightVector = lightPosition = worlePos.xyz;
+        lightVector = lightPosition - worldPos.xyz;
         gl_Position = worldPos;
 
         pass_lightColor = lightColor;

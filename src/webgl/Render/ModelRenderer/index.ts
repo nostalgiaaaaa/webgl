@@ -29,9 +29,14 @@ export default class ModelRenderer {
     GLC.depthTest(true);
   };
 
-  render = () => {
+  render = (light: {
+    getPosition: () => any;
+    getColor: () => any;
+    getAmbient: () => any;
+  }) => {
     this.preRender();
     this.shader.use();
+    this.shader.enableLight(light);
     Object.keys(this.models).forEach((model) => {
       this.models[model].type.use(this.shader);
       this.models[model].instances.forEach((instance: any) => {

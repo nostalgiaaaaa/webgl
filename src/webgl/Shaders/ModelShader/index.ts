@@ -4,10 +4,10 @@ import FragmentSource from "webgl/Shaders/ModelShader/fragment";
 import Locations from "webgl/Shaders/ModelShader/locations";
 
 export default class ModelShader {
-  positionAttribute: number | undefined;
-  normalAttribute: number | undefined;
+  positionAttribute: any;
   program: any;
   transformationMatrix: any;
+  normalAttribute!: number;
   lightPosition!: WebGLUniformLocation | null;
   lightColor!: WebGLUniformLocation | null;
   lightAmbient!: WebGLUniformLocation | null;
@@ -46,13 +46,13 @@ export default class ModelShader {
   };
 
   enablePosition = () => {
-    GLC.enableVertexAttribArray(this.positionAttribute as number);
-    GLC.pointToAttribute(this.positionAttribute as number, 3);
+    GLC.enableVertexAttribArray(this.positionAttribute);
+    GLC.pointToAttribute(this.positionAttribute, 3);
   };
 
   enableNormals = () => {
-    GLC.enableVertexAttribArray(this.normalAttribute as number);
-    GLC.pointToAttribute(this.normalAttribute as number, 3);
+    GLC.enableVertexAttribArray(this.normalAttribute);
+    GLC.pointToAttribute(this.normalAttribute, 3);
   };
 
   enableTransformationMatrix = (matrix: Iterable<number>) => {
@@ -64,8 +64,8 @@ export default class ModelShader {
     getColor: () => any;
     getAmbient: () => any;
   }) => {
-    GLC.upLoadvec3f(this.lightPosition, light.getPosition());
-    GLC.upLoadvec3f(this.lightColor, light.getColor());
+    GLC.uploadVec3f(this.lightPosition, light.getPosition());
+    GLC.uploadVec3f(this.lightColor, light.getColor());
     GLC.uploadFloat(this.lightAmbient, light.getAmbient());
   };
 }
