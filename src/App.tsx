@@ -11,16 +11,13 @@ import WebGL from "webgl";
 const AppWrapper = styled.div`
   display: flex;
   justify-content: center;
+  width: 100%;
+  height: 50%;
 `;
+
 function App() {
   return (
     <BrowserRouter>
-      <div style={{ display: "flex", gap: "20px" }}>
-        <Link to="/">lec1</Link>
-        <Link to="/st2">lec2</Link>
-        <Link to="/st3">lec3</Link>
-        <Link to="/st4">lec4</Link>
-      </div>
       <AppWrapper>
         <Routes>
           <Route path="/" element={<WebGL></WebGL>} />
@@ -61,6 +58,28 @@ function App() {
           />
         </Routes>
       </AppWrapper>
+      <div
+        style={{
+          width: "100%",
+          marginTop: "20px",
+        }}
+      >
+        <div
+          style={{
+            display: "flex",
+            gap: "20px",
+            width: "fit-content",
+            margin: "0 auto",
+            fontSize: "20px",
+            fontWeight: "bold",
+          }}
+        >
+          <Link to="/">lec1</Link>
+          <Link to="/st2">lec2</Link>
+          <Link to="/st3">lec3</Link>
+          <Link to="/st4">lec4</Link>
+        </div>
+      </div>
     </BrowserRouter>
   );
 }

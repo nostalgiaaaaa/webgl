@@ -6,7 +6,9 @@ import Cube from "./cube";
 import Light from "webgl/LightSource";
 import Material from "webgl/Materials/material";
 
-export default (id: string) => {
+let raf = 0;
+
+export const init = (id: string) => {
   const canvas = document.querySelector(`#${id}`);
 
   if (!canvas) {
@@ -46,8 +48,13 @@ export default (id: string) => {
     GLC.clear(1.0, 1.0, 1.0, 1.0);
     instance.updateRotation(0.1, 0.1, 0.1);
     ModelRender.render(light);
-    window.requestAnimationFrame(render);
+    raf = window.requestAnimationFrame(render);
   };
 
   render();
+};
+
+export const clear = () => {
+  window.cancelAnimationFrame(raf);
+  GLC.clear(1.0, 1.0, 1.0, 1.0);
 };
