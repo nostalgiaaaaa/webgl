@@ -80,7 +80,7 @@ class GLCommander {
       0
     );
 
-  upLoadMatrix4fv = (
+  uploadMatrix4fv = (
     location: WebGLUniformLocation,
     matrix: Iterable<number>
   ) => this.gl.uniformMatrix4fv(location, false, matrix);
@@ -93,6 +93,62 @@ class GLCommander {
 
   uploadFloat = (location: WebGLUniformLocation | null, value: any) =>
     this.gl.uniform1f(location, value);
+
+  createTexture = () => this.gl.createTexture();
+
+  bindTexture = (texture: WebGLTexture | null) =>
+    this.gl.bindTexture(this.gl.TEXTURE_2D, texture);
+
+  activeTexture = (texture: number) =>
+    this.gl.activeTexture(this.gl.TEXTURE0 + texture);
+
+  defineTexture = (img: any) =>
+    this.gl.texImage2D(
+      this.gl.TEXTURE_2D,
+      0,
+      this.gl.RGBA,
+      this.gl.RGBA,
+      this.gl.UNSIGNED_BYTE,
+      img
+    );
+
+  defineDummyTexture = () =>
+    this.gl.texImage2D(
+      this.gl.TEXTURE_2D,
+      0,
+      this.gl.RGBA,
+      1,
+      1,
+      0,
+      this.gl.RGBA,
+      this.gl.UNSIGNED_BYTE,
+      new Uint8Array([0, 0, 255, 255])
+    );
+
+  texturePowerOfTwo = () => this.gl.generateMipmap(this.gl.TEXTURE_2D);
+
+  textureNoPowerOfTwo = () => {
+    this.gl.texParameterf(
+      this.gl.TEXTURE_2D,
+      this.gl.TEXTURE_WRAP_S,
+      this.gl.CLAMP_TO_EDGE
+    );
+    this.gl.texParameterf(
+      this.gl.TEXTURE_2D,
+      this.gl.TEXTURE_WRAP_T,
+      this.gl.CLAMP_TO_EDGE
+    );
+    this.gl.texParameterf(
+      this.gl.TEXTURE_2D,
+      this.gl.TEXTURE_MIN_FILTER,
+      this.gl.LINEAR
+    );
+  };
+
+  uploadInt = (location: WebGLUniformLocation | null, value: number) =>
+    this.gl.uniform1i(location, value);
+  uploadBool = (location: WebGLUniformLocation | null, value: boolean) =>
+    this.gl.uniform1i(location, value ? 1 : 0);
 }
 
 const GLC = new GLCommander();

@@ -1,8 +1,8 @@
 import { mat4, vec3 } from "gl-matrix";
 
-const toRadians = (deg: number) => deg * (Math.PI / 100);
+export const toRadians = (deg: number) => deg * (Math.PI / 100);
 
-export const createTransformationMAtrix = (
+export const createTransformationMatrix = (
   x: number,
   y: any,
   z: number,

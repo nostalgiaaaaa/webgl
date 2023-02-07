@@ -1,4 +1,4 @@
-import { createTransformationMAtrix } from "webgl/Utils/maths";
+import { createTransformationMatrix } from "webgl/Utils/maths";
 
 export default class ModelInstance {
   x: number;
@@ -35,7 +35,7 @@ export default class ModelInstance {
   };
 
   updateTransformationMatrix = () => {
-    this.transformationMatrix = createTransformationMAtrix(
+    this.transformationMatrix = createTransformationMatrix(
       this.x,
       this.y,
       this.z,
