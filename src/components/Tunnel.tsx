@@ -1,6 +1,5 @@
 import * as THREE from "three";
 import React, { useEffect } from "react";
-import { ThreeElements } from "@react-three/fiber";
 import { Link } from "react-router-dom";
 
 let scene: THREE.Scene,
@@ -38,6 +37,8 @@ function init() {
   scene.add(light);
 
   renderer = new THREE.WebGLRenderer({ antialias: true });
+  renderer.autoClear = true;
+  renderer.autoClearColor = true;
   renderer.setSize(window.innerWidth, window.innerHeight);
   document.body.appendChild(renderer.domElement);
 
@@ -94,16 +95,18 @@ const St3 = () => {
     init();
     return () => {
       window.cancelAnimationFrame(raf);
-      scene.clear();
-      scene.remove();
+      window.removeEventListener("resize", resize);
       clock.stop();
-      renderer.clear();
-      renderer.renderLists.dispose();
-      renderer.dispose();
-      camera.clear();
-      camera.remove();
       tube.clear();
       tube.remove();
+      scene.clear();
+      scene.remove();
+      camera.clear();
+      camera.remove();
+      renderer.renderLists.dispose();
+      renderer.clear();
+      renderer.dispose();
+      document.body.removeChild(renderer.domElement);
     };
   }, []);
 

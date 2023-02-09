@@ -1,5 +1,4 @@
 import React from "react";
-import { Canvas } from "@react-three/fiber";
 import { BrowserRouter, Link, Route, Routes } from "react-router-dom";
 import styled from "styled-components";
 import Menu from "page/Menu";
@@ -15,7 +14,6 @@ const AppWrapper = styled.div`
 function App() {
   return (
     <BrowserRouter>
-      {/* <AppWrapper> */}
       <Routes>
         <Route path="/" element={<Tunnel></Tunnel>} />
         <Route path="/menu/*" element={<Menu></Menu>} />
