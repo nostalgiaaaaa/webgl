@@ -1,20 +1,20 @@
 import * as THREE from "three";
-import React, { useRef } from "react";
+import React, { useEffect } from "react";
 import { ThreeElements } from "@react-three/fiber";
+import { Link } from "react-router-dom";
 
 let scene: THREE.Scene,
   camera: THREE.PerspectiveCamera,
   renderer: THREE.WebGLRenderer,
   clock: THREE.Clock,
-  tube: THREE.Object3D<THREE.Event> | THREE.Mesh<any, THREE.MeshBasicMaterial>;
+  tube: THREE.Mesh<any, THREE.MeshBasicMaterial>;
 
-init();
+let raf = 0;
 
 function init() {
   const assetPath = "https://s3-us-west-2.amazonaws.com/s.cdpn.io/2666677/";
 
   clock = new THREE.Clock();
-
   scene = new THREE.Scene();
   const envMap = new THREE.CubeTextureLoader()
     .setPath(`${assetPath}skybox1_`)
@@ -41,19 +41,30 @@ function init() {
   renderer.setSize(window.innerWidth, window.innerHeight);
   document.body.appendChild(renderer.domElement);
 
-  //Add mesh here
-  // const curve = new THREE.Curve.TorusKnot();
-  // const geometry = new THREE.TubeBufferGeometry(curve, 100, 2, 8, true);
-  // const material = new THREE.MeshBasicMaterial({
-  //   wireframe: true,
-  //   side: THREE.DoubleSide,
-  // });
-  // tube = new THREE.Mesh(geometry, material);
-  // scene.add(tube);
+  const curve = new THREE.CatmullRomCurve3([
+    new THREE.Vector3(0, 20, 0),
+    new THREE.Vector3(-30, 20, 0),
+    new THREE.Vector3(-20, 0, 0),
+    new THREE.Vector3(-15, 20, 20),
+    new THREE.Vector3(10, 10, 10),
+    new THREE.Vector3(-10, -10, -10),
+    new THREE.Vector3(15, -20, -20),
+    new THREE.Vector3(20, 0, 0),
+    new THREE.Vector3(30, 20, 0),
+    new THREE.Vector3(0, 20, 0),
+  ]);
 
+  const geometry = new THREE.TubeGeometry(curve as any, 100, 1.5, 10, true);
+  const material = new THREE.MeshBasicMaterial({
+    // color: "#3f7b9d",
+    wireframe: true,
+    side: THREE.DoubleSide,
+  });
+  tube = new THREE.Mesh(geometry, material);
+  scene.add(tube);
   window.addEventListener("resize", resize, false);
 
-  // update();
+  update();
 }
 
 function updateCamera() {
@@ -61,14 +72,14 @@ function updateCamera() {
   const loopTimeSec = 20;
   const t = (time % loopTimeSec) / loopTimeSec;
   const t2 = ((time + 0.1) % loopTimeSec) / loopTimeSec;
-  const pos = (tube as any).geometry.parameters.path.getPoint(t);
-  const pos2 = (tube as any).geometry.parameters.path.getPoint(t2);
+  const pos = tube.geometry.parameters.path.getPoint(t);
+  const pos2 = tube.geometry.parameters.path.getPoint(t2);
   camera.position.copy(pos);
   camera.lookAt(pos2);
 }
 
 function update() {
-  requestAnimationFrame(update);
+  raf = requestAnimationFrame(update);
   updateCamera();
   renderer.render(scene, camera);
 }
@@ -78,20 +89,35 @@ function resize() {
   camera.updateProjectionMatrix();
   renderer.setSize(window.innerWidth, window.innerHeight);
 }
-const St3 = (props: ThreeElements["mesh"]) => {
-  const ref = useRef<THREE.Mesh>(null!);
+const St3 = () => {
+  useEffect(() => {
+    init();
+    return () => {
+      window.cancelAnimationFrame(raf);
+      scene.clear();
+      scene.remove();
+      clock.stop();
+      renderer.clear();
+      renderer.renderLists.dispose();
+      renderer.dispose();
+      camera.clear();
+      camera.remove();
+      tube.clear();
+      tube.remove();
+    };
+  }, []);
 
   return (
-    // <mesh {...props} ref={ref}>
-    //   <boxBufferGeometry attach="geometry" args={[100, 2, 8]} />
-    //   <meshNormalMaterial attach="material" />
-    // </mesh>
     <>
-      <a id="camera-btn">
-        <div>
-          <i className="fas fa-camera"></i>
+      <div className="main-wrap">
+        <div className="content__title-wrap">
+          <span className="content__pretitle">WebGL</span>
+          <h2 className="content__title">Nostalgia</h2>
+          <Link className="content__link" to="/menu/st2">
+            Enter
+          </Link>
         </div>
-      </a>
+      </div>
     </>
   );
 };

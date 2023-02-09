@@ -13,9 +13,8 @@ const WebGL = () => {
   return (
     <canvas
       id="webgl"
-      width="1000px"
-      height="1000px"
-      style={{ border: "1px solid black" }}
+      width={window.innerWidth / 3}
+      height={window.innerWidth / 3}
     ></canvas>
   );
 };

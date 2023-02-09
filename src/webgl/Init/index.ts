@@ -46,7 +46,7 @@ export const init = (id: string) => {
 
   const render = () => {
     GLC.clear(1.0, 1.0, 1.0, 1.0);
-    instance.updateRotation(0.1, 0.1, 0.1);
+    instance.updateRotation(0.05, 0.05, 0.05);
     ModelRender.render(light);
     raf = window.requestAnimationFrame(render);
   };

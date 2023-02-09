@@ -2,11 +2,8 @@ import React from "react";
 import { Canvas } from "@react-three/fiber";
 import { BrowserRouter, Link, Route, Routes } from "react-router-dom";
 import styled from "styled-components";
-import St1 from "components/St1";
-import St2 from "components/St2";
-// import St3 from "components/St3";
-import St4 from "components/St4";
-import WebGL from "webgl";
+import Menu from "page/Menu";
+import Tunnel from "components/Tunnel";
 
 const AppWrapper = styled.div`
   display: flex;
@@ -18,68 +15,11 @@ const AppWrapper = styled.div`
 function App() {
   return (
     <BrowserRouter>
-      <AppWrapper>
-        <Routes>
-          <Route path="/" element={<WebGL></WebGL>} />
-          <Route
-            path="/st2"
-            element={
-              <Canvas>
-                <ambientLight />
-                <St2 position={[0, 0, 0]}></St2>
-              </Canvas>
-            }
-          />
-          <Route
-            path="/st3"
-            element={
-              <Canvas>
-                <ambientLight />
-                <pointLight position={[10, 15, 10]} />
-                <St1 position={[-2, 2, 0]} />
-                <St1 position={[0, 2, 0]} />
-                <St1 position={[2, 2, 0]} />
-                <St1 position={[-2, 0, 0]} />
-                <St1 position={[0, 0, 0]} />
-                <St1 position={[2, 0, 0]} />
-                <St1 position={[-2, -2, 0]} />
-                <St1 position={[0, -2, 0]} />
-                <St1 position={[2, -2, 0]} />
-              </Canvas>
-            }
-          />
-          <Route
-            path="/st4"
-            element={
-              <Canvas color="black">
-                <St4></St4>
-              </Canvas>
-            }
-          />
-        </Routes>
-      </AppWrapper>
-      <div
-        style={{
-          width: "100%",
-          marginTop: "20px",
-        }}
-      >
-        <div
-          style={{
-            display: "flex",
-            gap: "20px",
-            width: "fit-content",
-            margin: "0 auto",
-            fontSize: "20px",
-            fontWeight: "bold",
-          }}
-        >
-          <Link to="/">lec1</Link>
-          <Link to="/st2">lec2</Link>
-          <Link to="/st3">lec3</Link>
-          <Link to="/st4">lec4</Link>
-        </div>
-      </div>
+      {/* <AppWrapper> */}
+      <Routes>
+        <Route path="/" element={<Tunnel></Tunnel>} />
+        <Route path="/menu/*" element={<Menu></Menu>} />
+      </Routes>
     </BrowserRouter>
   );
 }

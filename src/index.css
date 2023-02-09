@@ -3,9 +3,70 @@
   padding: 0;
 }
 
-html,
+/* html,
 body,
 #root {
   width: 100%;
   height: 100%;
+} */
+
+.main-wrap {
+  color: #fff;
+  display: flex;
+  position: absolute;
+  flex-direction: column;
+  width: 100vw;
+  height: 100vh;
+  justify-content: flex-start;
+  align-items: center;
+}
+
+.content__title-wrap {
+  margin: auto;
+  position: relative;
+  text-align: center;
+  pointer-events: none;
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  -khtml-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
+
+.content__title-wrap a {
+  pointer-events: auto;
+}
+
+.content__pretitle {
+  color: var(--color-alt);
+  font-size: 1.35rem;
+}
+
+.content__title {
+  font-size: 6vw;
+  font-weight: normal;
+  margin: 0.5rem 0 1.5rem;
+  font-family: azo-sans-uber, sans-serif;
+}
+
+.content__link {
+  text-decoration: underline;
+  font-family: azo-sans-uber, sans-serif;
+  font-size: 1.1rem;
+  color: inherit;
+}
+
+.menu-container {
+  position: absolute;
+  bottom: 1%;
+  right: 1%;
+}
+
+.menu-wrap {
+  font-size: 2rem;
+}
+.menu {
+  text-decoration: none;
+  outline: none;
 }
